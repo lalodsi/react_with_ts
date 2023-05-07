@@ -1,13 +1,16 @@
-import type { FunctionComponent, FC} from 'react'
-import React from 'react'
+import type { FunctionComponent, FC } from 'react'
+import React, { useState } from 'react'
 
-type Props = {}
+type RandomFoxProps = {
+  image: string
+}
 
-const RandomFox = (): JSX.Element => {
+const RandomFox = (props: RandomFoxProps): JSX.Element => {
+  const {
+    image
+  } = props;
 
-  const image: string = "https://randomfox.ca/floof/"
-
-  return <img src={image} />;
+  return <img width={320} height={'auto'} className='rounded' src={image} />;
 }
 
 export { RandomFox }

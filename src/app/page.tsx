@@ -3,7 +3,12 @@ import Head from "next/head";
 import "./globals.css"
 import { RandomFox } from "@/components/RandomFox";
 
+const randomNumber = (max: number):number => Math.floor(Math.random()*max);
+
 const Home: NextPage = () => {
+
+  const source: string = `https:\/\/randomfox.ca\/images\/${randomNumber(123)}.jpg`
+
   return (
     <div>
       <Head>
@@ -12,6 +17,7 @@ const Home: NextPage = () => {
         <link rel="stylesheet" href="/favicon.ico" />
       </Head>
         <h1>Hola Platzi</h1>
+      <RandomFox Image={source} />
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
           <h1 className="fixed left-0 top-0 flex w-full justify-center bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
