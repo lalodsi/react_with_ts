@@ -3,7 +3,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import "./globals.css"
-import { RandomFox } from "@/components/RandomFox";
+import { LazyImage } from "@/components/LazyImage";
 import { MouseEventHandler, useState } from "react";
 
 const randomNumber = (max: number):number => Math.floor(Math.random()*max);
@@ -44,17 +44,19 @@ const Home: NextPage = () => {
       {
         images.map((image, index) => (
           <div key={index} className='p-4'>
-            <RandomFox image={image.url} />
+            <LazyImage
+              src={image.url}
+              width={320}
+              height='auto'
+              className='rounded bg-gray-300'
+              onClick={() => console.log("Hey")}
+              onLazyLoad={(img) => {
+                console.log(`Image ${index} loaded, node: `, img);
+              }}
+            />
           </div>
         ))
       }
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
-        <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-          <h1 className="fixed left-0 top-0 flex w-full justify-center bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-            This is my first app usin NextJs
-          </h1>
-        </div>
-      </main>
     </div>
   )
 }
