@@ -19,14 +19,20 @@ const LazyImage = (props: Props): JSX.Element => {
 
   const node = useRef<HTMLImageElement>(null);
   const [currentSrc, setCurrentSrc] = useState("");
+  const [isLazyLoaded, setIsLazyLoaded] = useState(false);
   useEffect(() => {
+    if (isLazyLoaded) return;
+
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (!entry.isIntersecting || !node.current) {
           return;
         }
 
+        // Una vez renderizado, se desconecta el observador
         setCurrentSrc(src);
+        observer.disconnect();
+        setIsLazyLoaded(true);
 
         if (typeof onLazyLoad === 'function') {
           onLazyLoad(node.current);
@@ -40,12 +46,11 @@ const LazyImage = (props: Props): JSX.Element => {
     return () => {
       observer.disconnect();
     }
-  }, [src])
+  }, [src, onLazyLoad, isLazyLoaded])
 
   return (
     <img
       ref={node}
-      onLoad={() => onLazyLoad(node)}
       src={currentSrc}
       { ...moreProps }
     />
