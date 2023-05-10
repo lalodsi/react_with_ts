@@ -4,26 +4,33 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import "./globals.css"
 import { RandomFox } from "@/components/RandomFox";
-import { useState } from "react";
+import { MouseEventHandler, useState } from "react";
 
 const randomNumber = (max: number):number => Math.floor(Math.random()*max);
 const generateId = ():string =>Math.random().toString(36).substring(2,9);
 
-type ImageType  = Array<{
+type ImageType  = {
   id: string,
   url: string
-}>
+}
 
 const Home: NextPage = () => {
 
   const source: () => string = () => `https:\/\/randomfox.ca\/images\/${randomNumber(123)}.jpg`
-  const [images, setImages] = useState<ImageType>([
-    {id: generateId(), url: source()},
-    {id: generateId(), url: source()},
-    {id: generateId(), url: source()},
-    {id: generateId(), url: source()},
-  ]);
+  const [images, setImages] = useState<Array<ImageType>>([]);
+  
+  const addNewFox: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.preventDefault();
 
+    const newImageItem: ImageType = {
+      id: generateId(), url: source()
+    }
+
+    setImages([
+      ...images,
+      newImageItem
+    ])
+  }
 
   return (
     <div>
@@ -33,6 +40,7 @@ const Home: NextPage = () => {
         <link rel="stylesheet" href="/favicon.ico" />
       </Head>
       <h1>Hola Platzi</h1>
+      <button onClick={addNewFox}>Add new fox</button>
       {
         images.map((image, index) => (
           <div key={index} className='p-4'>
